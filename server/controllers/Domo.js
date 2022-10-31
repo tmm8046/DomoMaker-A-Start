@@ -1,6 +1,7 @@
 const models = require('../models');
+const Domo = models.Domo;
 
-const { Domo } = models;
+// const { Domo } = models;
 
 const makerPage = (req, res) => {
   Domo.findByOwner(req.session.account._id, (err, docs) => {

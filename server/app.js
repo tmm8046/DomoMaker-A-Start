@@ -13,8 +13,8 @@ const router = require('./router.js');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
-const dburI = process.env.MONGODB_URI || 'mongodb://127.0.0.1/DomoMaker';
-mongoose.connect(dburI, (err) => {
+const dbURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1/DomoMaker';
+mongoose.connect(dbURI, (err) => {
   if (err) {
     console.log('could not connect to database');
     throw err;
@@ -29,6 +29,14 @@ app.use(favicon(`${__dirname}/../hosted/img/favicon.png`));
 app.use(compression());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use(session({
+  key: 'sessionid',
+  secret: 'Domo Arigato',
+  resave: true,
+  saveUninitialized: true,
+}));
+
 app.engine('handlebars', expressHandlebars.engine({ defaultLayout: '' }));
 app.set('view engine', 'handlebars');
 app.set('views', `${__dirname}/../views`);
@@ -41,14 +49,5 @@ app.listen(port, (err) => {
   console.log(`listening on port ${port}`);
 });
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 
-app.use(session({
-  key: 'sessionid',
-  secret: 'Domo Arigato',
-  resave: true,
-  saveUninitialized: true,
-}));
 
-app.engine('handlebars', expressHandlebars.engine({ defaultLayout: '' }));
