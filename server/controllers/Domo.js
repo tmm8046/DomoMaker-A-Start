@@ -1,5 +1,6 @@
 const models = require('../models');
-const Domo = models.Domo;
+
+const { Domo } = models;
 
 // const { Domo } = models;
 
@@ -9,7 +10,7 @@ const makerPage = (req, res) => {
       console.log(err);
       return res.status(400).json({ error: 'An error has occured!' });
     }
-    return res.render('app', { domos: docs });
+    return res.render('app', { csrfToken: req.csrfToken(), domos: docs });
   });
 };
 
